@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Neil Tu">
+
+
+
+
+
+<title>Midjourney v5 | Hexo</title>
+
+
+
+    <link rel="icon" href="/linkneil/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/linkneil/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/linkneil/js/script.js"></script>
+    
+    <script src="/linkneil/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/linkneil/">Neil&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/linkneil/archives">Posts</a>
+                
+                    <a class="menu-item" href="/linkneil/category">Categories</a>
+                
+                    <a class="menu-item" href="/linkneil/tag">Tags</a>
+                
+                    <a class="menu-item" href="/linkneil/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/linkneil/">Neil&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/linkneil/archives">Posts</a>
+                
+                    <a class="menu-item" href="/linkneil/category">Categories</a>
+                
+                    <a class="menu-item" href="/linkneil/tag">Tags</a>
+                
+                    <a class="menu-item" href="/linkneil/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Midjourney v5</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Neil Tu</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">April 9, 2023&nbsp;&nbsp;21:26:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/linkneil/categories/Midjourney/">Midjourney</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="v5"><a href="#v5" class="headerlink" title="v5"></a>v5</h2><h3 id="–v-5"><a href="#–v-5" class="headerlink" title="–v 5"></a>–v 5</h3><p>add Prompts結尾 or &#x2F;setting 手動調整(預設帶入)</p>
+<h3 id="Prompts-from-ChatGPT"><a href="#Prompts-from-ChatGPT" class="headerlink" title="Prompts from ChatGPT"></a>Prompts from ChatGPT</h3><p>I’m using an image generating ai.Act as a Midjourney prompt generator.<br>Generate appropriate prompts under different circumstances,<br>For example, if I type &#x2F;sports shoes product image,<br>you are going to generate prompts like “Realistic true details photography of sports shoes, y2k, lively, bright colors, product photography, Sony A7R IV, clean sharp<br>focus”</p>
+<h3 id="–ar-3-2比例-to-GPT"><a href="#–ar-3-2比例-to-GPT" class="headerlink" title="–ar 3:2比例 to GPT"></a>–ar 3:2比例 to GPT</h3><p>now add” –ar 3:2 after every output<br>&#x2F;a simple logo for a startup, xx company style, illustration</p>
+<h3 id="community-forums-gt-prompt-faqs討論區"><a href="#community-forums-gt-prompt-faqs討論區" class="headerlink" title="community forums &gt; prompt-faqs討論區"></a>community forums &gt; prompt-faqs討論區</h3><h3 id="compare-v1-v5"><a href="#compare-v1-v5" class="headerlink" title="compare v1-v5"></a>compare v1-v5</h3><p><a target="_blank" rel="noopener" href="https://marigoldguide.notion.site/marigoldguide/52ac9968a8da4003a825039022561a30?v=a697f852c05840478b8b504da455cfef">https://marigoldguide.notion.site/marigoldguide/52ac9968a8da4003a825039022561a30?v=a697f852c05840478b8b504da455cfef</a></p>
+<h3 id="stablediffusion"><a href="#stablediffusion" class="headerlink" title="stablediffusion"></a>stablediffusion</h3><p>url: <a target="_blank" rel="noopener" href="https://github.com/camenduru/stable-diffusion-webui-colab">https://github.com/camenduru/stable-diffusion-webui-colab</a><br>選擇模型開啟Colab (建議是Chillout_mix)<br>打開GPU記憶體<br>run wait 10 mins<br>點擊第二個網址: <a target="_blank" rel="noopener" href="https://04cbe9cf-b572-42ae.gradio.live/">https://04cbe9cf-b572-42ae.gradio.live</a> </p>
+<p>其他創作者: <a target="_blank" rel="noopener" href="https://civitai.com/">https://civitai.com/</a><br>參閱參數Sampling steps, CFG Scale, Seed, 512 or 768</p>
+<h3 id="–seed"><a href="#–seed" class="headerlink" title="–seed"></a>–seed</h3><p>透過生成圖片，點擊信封圖示回傳seed<br>part1 main character, part2 area detail, digital art –ar 3:2 –seed 12345678</p>
+<h3 id="D-ID"><a href="#D-ID" class="headerlink" title="D-ID"></a>D-ID</h3><p>將生成圖片配上文稿，自行產生讀稿影片</p>
+<h3 id="繪本製作"><a href="#繪本製作" class="headerlink" title="繪本製作"></a>繪本製作</h3><p>Clipchamp 工具剪輯工具</p>
+<h3 id="文稿from-ChatGPT"><a href="#文稿from-ChatGPT" class="headerlink" title="文稿from ChatGPT"></a>文稿from ChatGPT</h3><p>請幫我構思一個故事的情節，主角是一個叫做麗莎的女學生，他對任何事物都充滿好奇心。再幫我加上一些時空的元素，以及在穿越時空之後跟各種名人對話<br>請給我一些ai繪圖的提示(prompts)，提示的內容是麗莎跟自己位有名的人交談，並詳細敘述每個場地的環境例如室內的擺飾和氣氛（描述場地是不用提到人名）<br>• Lisa meets with Albert Einstein in a laboratory, filled with equipment and scientific instruments.<br>• Lisa finds herself in a luxurious palace, talking with Cleopatra. The surroundings are opulent and decorated with gold and precious jewels.<br>• Lisa travels back to ancient China and has a conversation with Confucius in a tranquil garden. There are bamboo trees, a koi pond, and a small bridge over a stream.<br>• Lisa goes to a futuristic city and meets with Elon Musk in a sleek and modern office. The office is filled with high-tech gadgets and has a breathtaking view of the skyline.<br>• Lisa visits a temple and meets with an ancient Zen master. The temple is filled with ancient silk paintings and Buddha statues, and the candles cast a warm glow over the room.<br>ex.<br>&#x2F;imagine prompt: A girl student with long flowing hair and a cheerful personality, Lisa meets with Albert Einstein in a laboratory, filled with equipment and scientific instruments, digital art –ar 3:2 –v 4 –seed 806435569<br>&#x2F;imagine prompt: A girl student with long flowing hair and a cheerful personality, Lisa finds herself in a luxurious palace, talking with Cleopatra. The surroundings are opulent and decorated with gold and precious jewels, digital art –ar 3:2 –v 4 –seed 806435569</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Neil Tu</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://neiltu.github.io/linkneil/2023/04/09/034_Midjourney/">https://neiltu.github.io/linkneil/2023/04/09/034_Midjourney/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Don't believe everything you hear, read, or are told. <strong>Use your own head,</strong> think, and judge. - Shakespeare</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/linkneil/tags/Midjourney/"># Midjourney</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/linkneil/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/linkneil/2023/04/10/035_08.Python%20Input%20and%20Output%E8%BC%B8%E5%85%A5%E8%BC%B8%E5%87%BA/">08.Python Input and Output</a>
+            
+            
+            <a class="next" rel="next" href="/linkneil/2023/04/07/029_Kubernetes%20notes/">Kubernetes notes</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Neil Tu | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
